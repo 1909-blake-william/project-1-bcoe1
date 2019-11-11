@@ -1,0 +1,20 @@
+<table id = "pokeTable">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Level</td>
+            <td>HP</td>
+            <td>Type</td>
+            <td>Trainer</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor= "let ele of pokemon">
+            <td>{{ele.name}}</td>
+            <td>{{ele.level}}</td>
+            <td>{{ele.healthPoints}}</td>
+            <td>{{ele.type.name}}</td>
+            <td>{{ele.trainer?.username}}</td>
+        </tr>
+    </tbody>
+</table>

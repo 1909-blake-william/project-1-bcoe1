@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="/me">{{currentUser?.ersUsername}}</a>
+
+  <div class="collapse navbar-collapse" id="navbarsExample04">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login" *ngIf="currentUser?.ersUsername">Logout</a>
+      </li>
+      <!-- make logout a button that logs out not a routerlink, implement a logout function to do -->
+      <!-- *ngIf="currentUser?.userRoleId !== 1 || currentUser.userRoleId !== 2" -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login" *ngIf="!currentUser?.ersUsername">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/viewRequests" *ngIf="currentUser?.userRoleId === 1">View Requests</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/submitRequests" *ngIf="currentUser?.userRoleId === 1">Submit Request</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/viewAllRequests" *ngIf="currentUser?.userRoleId === 2">View All Requests</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/viewRequestsByUser" *ngIf="currentUser?.userRoleId === 2">View Requests by User</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/viewRequestsByStatus" *ngIf="currentUser?.userRoleId === 2">View Requests by Staus</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/viewRequestsByUserAndId" *ngIf="currentUser?.userRoleId === 2">View Requests by User and Status</a>
+      </li>
+
+      <!-- <li ngbDropdown class="d-inline-block">
+        <a class="nav-link dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>Examples</a>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button class="dropdown-item" routerLink="/first">First</button>
+          <button class="dropdown-item" routerLink="/second">Second</button>
+          <button class="dropdown-item" routerLink="/heroes">Heroes</button>
+          <button class="dropdown-item" routerLink="/pipe">Pipes</button>
+          <button class="dropdown-item" routerLink="/clicker">Clicker</button>
+          <button class="dropdown-item" routerLink="/parent">Nested Routes</button>
+          <button class="dropdown-item" routerLink="/pokemon">Http Pokemon</button>
+          <button class="dropdown-item" routerLink="/users">Http Users</button>
+          <button class="dropdown-item" routerLink="/tic-tac">Tic Tac Toe</button>
+          <button class="dropdown-item" routerLink="/spring">Spring</button>
+        </div>
+      </li> -->
+    </ul>
+
+  </div>
+</nav>
