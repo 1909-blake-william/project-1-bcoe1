@@ -6,9 +6,9 @@
 
 #reimbursement-table tr:hover {
     cursor: pointer;
-    -webkit-box-shadow: inset 0px 0px 10px 1px #ff99cc;
-    -moz-box-shadow: inset 0px 0px 10px 1px #ff99cc;
-    box-shadow: inset 0px 0px 10px 1px #ff99cc;
+    -webkit-box-shadow: inset 0px 0px 10px 1px #85f36a;
+    -moz-box-shadow: inset 0px 0px 10px 1px #85f36a;
+    box-shadow: inset 0px 0px 10px 1px #85f36a;
 }
 
 #reimbursement-table td {

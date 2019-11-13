@@ -4,6 +4,7 @@ function newReimbursementSubmit(event) {
     console.log('submitted');
 
     const reimbursement = getReimbursementFromInputs();
+    //console.log(reimbursement)
 
     fetch('http://localhost:8080/ReimbursementApi/reimbursements', {
         method: 'POST',
@@ -59,7 +60,7 @@ function addReimbursementToTable(reimbursement) {
     // not needed because only displaying things for a current user here
 
     const reimbResolverData = document.createElement('td');
-    reimbResolverData.innerText = reimbursement.reimbResolver;
+    reimbResolverData.innerText = reimbursement.reimbResName;
     row.appendChild(reimbResolverData);
 
     const reimbStatData = document.createElement('td');
@@ -75,8 +76,10 @@ function addReimbursementToTable(reimbursement) {
 }
 
 function getReimbursementFromInputs() {
-    const amount = document.getElementById('reimbursement-amount-input').value;
+    const amount = +document.getElementById('reimbursement-amount-input').value;
+    //console.log(amount)
     const description = document.getElementById('reimbursement-description-input').value;
+    //console.log(description)
     const type = document.getElementById('reimbursement-type-select').value;
     let typeId;
     if (type === 'Lodging') {
@@ -88,12 +91,17 @@ function getReimbursementFromInputs() {
     } else {
         typeId = 4
     }
+    //console.log(typeId)
+    const author = currentUser.ersUsersId
+    console.log(author)
 
     const reimbursement = {
         reimbAmount: amount,
         reimbDescription: description,
-        reimbTypeId: typeId
+        reimbTypeId: typeId,
+        reimbAuthor: author
     }
+    //console.log(reimbursement)
     return reimbursement;
 }
 
@@ -108,7 +116,6 @@ function refreshTable() {
         .catch(console.log);
 }
 
-
 function getCurrentUserInfo() {
     fetch('http://localhost:8080/ReimbursementApi/auth/session-user', {
         credentials: 'include'
@@ -117,13 +124,36 @@ function getCurrentUserInfo() {
         .then(data => {
             document.getElementById('users-name').innerText = data.ersUsername
             currentUser = data;
-            console.log(currentUser)
+            //console.log(currentUser)
             refreshTable();
 
         })
         .catch(err => {
             console.log(err)
-            //window.location = '/login.html'
+            window.location = '/login.html'
+        })
+}
+
+function logout(event) {
+    //event.preventDefault();
+    console.log('logout function')
+    fetch('http://localhost:8080/ReimbursementApi/auth/logout', {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        mode: 'cors',
+        credentials: 'include', // put credentials: 'include' on every request to use session info
+        //body: JSON.stringify(credential)
+    })
+        .then(resp => {
+            // if(resp.status === 201) {
+            //     // redirect
+            getCurrentUserInfo();
+            //window.location = '/login.html';
+            // } else {
+            //     //document.getElementById('error-message').innerText = 'Failed to login';
+            // }
         })
 }
 
