@@ -17,14 +17,14 @@ function login(event) {
         credentials: 'include', // put credentials: 'include' on every request to use session info
         body: JSON.stringify(credential)
     })
-    .then(resp => {
-        if(resp.status === 201) {
-            // redirect
-            window.location = '/view-reimbursements.html';
-        } else {
-            document.getElementById('error-message').innerText = 'Failed to login';
-        }
-    })
+        .then(resp => {
+            if (resp.status === 201) {
+                // redirect
+                window.location = '/view-reimbursements.html';
+            } else {
+                document.getElementById('error-message').innerText = 'Failed to login';
+            }
+        })
 
 
 }

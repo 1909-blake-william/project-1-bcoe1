@@ -29,10 +29,9 @@ function addReimbursementToTable(reimbursement) {
     const row = document.createElement('tr');
 
     // create all the td elements and append them to the row
-    // const idData = document.createElement('td');
-    // idData.innerText = reimbursement.reimbId;
-    // row.appendChild(idData);
-    // employee doesnt need id
+    const idData = document.createElement('td');
+    idData.innerText = reimbursement.reimbId;
+    row.appendChild(idData);
 
     const amountData = document.createElement('td');
     amountData.innerText = reimbursement.reimbAmount;
@@ -54,10 +53,10 @@ function addReimbursementToTable(reimbursement) {
     reimbDesData.innerText = reimbursement.reimbDescription;
     row.appendChild(reimbDesData);
 
-    // const reimbAuthData = document.createElement('td');
-    // reimbAuthData.innerText = reimbursement.reimbName;
-    // row.appendChild(reimbAuthData);
-    // not needed because only displaying things for a current user here
+    const reimbAuthData = document.createElement('td');
+    reimbAuthData.innerText = reimbursement.reimbName;
+    row.appendChild(reimbAuthData);
+   
 
     const reimbResolverData = document.createElement('td');
     reimbResolverData.innerText = reimbursement.reimbResName;
@@ -106,7 +105,7 @@ function getReimbursementFromInputs() {
 }
 
 function refreshTable() {
-    fetch(`http://localhost:8080/ReimbursementApi/reimbursements?user=${currentUser.ersUsersId}`, { //
+    fetch(`http://localhost:8080/ReimbursementApi/reimbursements`, { //
         credentials: 'include'
     })
         .then(res => res.json())
@@ -125,8 +124,8 @@ function getCurrentUserInfo() {
             document.getElementById('users-name').innerText = data.ersUsername 
             //logout causes data to be null so it can't read username of it
             currentUser = data;
-            if (currentUser.userRoleId === 2){
-                window.location = '/view-reimbursements-manager.html'
+            if (currentUser.userRoleId === 1){
+                window.location = '/view-reimbursements.html'
             }
             //console.log(currentUser)
             refreshTable();
@@ -162,3 +161,6 @@ function logout(event) {
 }
 
 getCurrentUserInfo();
+
+
+//ideas make 4 seperate functions depending on what is present in the form

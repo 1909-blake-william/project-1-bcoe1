@@ -11,7 +11,7 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- bootstrap -->
-    <link rel="stylesheet" href="view-reimbursements.css">
+    <link rel="stylesheet" href="view-reimbursements-manager.css">
 </head>
 
 <body>
@@ -68,14 +68,12 @@
     <table class="table" id="reimbursement-table">
         <thead class="thead-dark">
             <tr>
-                <!-- <th scope="col">Id</th> -->
-                <!-- employee doesnt need to knwo id -->
+                <th scope="col">Id</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Time Submitted</th>
                 <th scope="col">Time Resolved</th>
                 <th scope="col">Description</th>
-                <!-- <th scope="col">Author</th> -->
-                <!-- not needed here because author is always the user -->
+                <th scope="col">Author</th>
                 <th scope="col">Resolver</th>
                 <th scope="col">Status</th>
                 <th scope="col">Type</th>
@@ -88,23 +86,20 @@
     <br>
     <br>
     <br>
-        <h4>Submit New Reimbursement Request</h4>
-    <form id="new-reimbursement-form" onsubmit="newReimbursementSubmit(event)">
+        <h4>Filter requests based on user and/or status</h4>
+    <form id="filter-form" onsubmit="newFilterSubmit(event)">
         <div class="form-group">
-            <label for="reimbursement-amount-input">Amount:</label>
-            <input type="text" class="form-control" id="reimbursement-amount-input">
+            <label for="filter-user-input">User:</label>
+            <input type="text" class="form-control" id="filter-user-input">
         </div>
+
         <div class="form-group">
-            <label for="reimbursement-description-input">Description:</label>
-            <input type="text" class="form-control" id="reimbursement-description-input">
-        </div>
-        <div class="form-group">
-            <label for="reimbursement-type-select">Type</label>
-            <select class="form-control" id="reimbursement-type-select">
-                <option>Lodging</option>
-                <option>Travel</option>
-                <option>Food</option>
-                <option>Other</option>
+            <label for="filter-status-select">Status</label>
+            <select class="form-control" id="filter-status-select">
+                <option>All</option>
+                <option>Pending</option>
+                <option>Approved</option>
+                <option>Denied</option>
             </select>
         </div>
         <button class="btn btn-danger" type="submit">Submit</button>
@@ -123,6 +118,6 @@
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
 
-<script src="view-reimbursements.js"></script>
+<script src="view-reimbursements-manager.js"></script>
 
 </html>

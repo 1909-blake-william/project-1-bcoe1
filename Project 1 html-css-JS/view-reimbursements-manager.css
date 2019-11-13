@@ -1,0 +1,24 @@
+#reimbursement-table {
+    width: 75%;
+    margin: auto;
+    margin-top: 1em;
+}
+
+#reimbursement-table tr:hover {
+    cursor: pointer;
+    -webkit-box-shadow: inset 0px 0px 10px 1px #85f36a;
+    -moz-box-shadow: inset 0px 0px 10px 1px #85f36a;
+    box-shadow: inset 0px 0px 10px 1px #85f36a;
+}
+
+#reimbursement-table td {
+    border: 1px solid #bfbfbf;
+}
+
+#filter-form {
+    padding: 1em 25%;
+}
+
+h4 {
+    text-align: center;
+}
