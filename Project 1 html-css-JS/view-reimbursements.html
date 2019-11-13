@@ -67,12 +67,14 @@
     <table class="table" id="reimbursement-table">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">Id</th>
+                <!-- <th scope="col">Id</th> -->
+                <!-- employee doesnt need to knwo id -->
                 <th scope="col">Amount</th>
                 <th scope="col">Time Submitted</th>
                 <th scope="col">Time Resolved</th>
                 <th scope="col">Description</th>
-                <th scope="col">Author</th>
+                <!-- <th scope="col">Author</th> -->
+                <!-- not needed here because author is always the user -->
                 <th scope="col">Resolver</th>
                 <th scope="col">Status</th>
                 <th scope="col">Type</th>
@@ -82,7 +84,10 @@
           
         </tbody>
     </table>
-
+    <br>
+    <br>
+    <br>
+        <h4>Submit New Reimbursement Request</h4>
     <form id="new-reimbursement-form" onsubmit="newReimbursementSubmit(event)">
         <div class="form-group">
             <label for="reimbursement-amount-input">Amount:</label>
