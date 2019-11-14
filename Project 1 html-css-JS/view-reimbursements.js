@@ -16,7 +16,7 @@ function newReimbursementSubmit(event) {
         .then(res => res.json())
         .then(data => {
             addReimbursementToTable(data);
-            console.log(data);
+            //console.log(data);
         })
         .catch(err => console.log(err));
 
@@ -71,6 +71,17 @@ function addReimbursementToTable(reimbursement) {
     reimbTypeData.innerText = reimbursement.reimbType;
     row.appendChild(reimbTypeData);
 
+
+    if (reimbursement.reimbStatus === 'Pending') {
+        const reimbDeleteButton = document.createElement('button');
+        reimbDeleteButton.innerText = 'Delete';
+        reimbDeleteButton.setAttribute('onclick', 'deleteButton(this.value)')
+        reimbDeleteButton.setAttribute('class', 'btn btn-lg btn-danger btn-block')
+        reimbDeleteButton.setAttribute('value', `${reimbursement.reimbId}`)
+        row.appendChild(reimbDeleteButton);
+    }
+
+
     // append the row into the table
     document.getElementById('reimbursement-table-body').appendChild(row);
 }
@@ -111,6 +122,10 @@ function refreshTable() {
     })
         .then(res => res.json())
         .then(data => {
+            let numRows = document.getElementById('reimbursement-table-body').rows.length
+            for (let i = numRows - 1; i > -1; i--) {
+                document.getElementById('reimbursement-table-body').deleteRow(i)
+            }
             data.forEach(addReimbursementToTable)
         })
         .catch(console.log);
@@ -122,10 +137,10 @@ function getCurrentUserInfo() {
     })
         .then(resp => resp.json())
         .then(data => {
-            document.getElementById('users-name').innerText = data.ersUsername 
+            document.getElementById('users-name').innerText = data.ersUsername
             //logout causes data to be null so it can't read username of it
             currentUser = data;
-            if (currentUser.userRoleId === 2){
+            if (currentUser.userRoleId === 2) {
                 window.location = '/view-reimbursements-manager.html'
             }
             //console.log(currentUser)
@@ -161,4 +176,22 @@ function logout(event) {
         })
 }
 
+function deleteButton(id) {
+    event.preventDefault(); // stop page from refreshing
+    console.log('delete');
+
+    fetch(`http://localhost:8080/ReimbursementApi/reimbursements`, {
+        method: 'DELETE',
+        body: JSON.stringify(id),
+        headers: {
+            'content-type': 'application/json'
+        }
+    })
+        .then(refreshTable())
+        .then( ()=> {})
+        .catch(err => console.log(err));
+
+}
+
 getCurrentUserInfo();
+

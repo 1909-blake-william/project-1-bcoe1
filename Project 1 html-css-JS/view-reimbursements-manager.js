@@ -17,7 +17,9 @@ function newFilterSubmit(event) {
         statusNum = 2;
     } else {
         statusNum = 3;
-    }
+    } 
+
+
     if (!+user) { //if input is not a number convert it to the correct id
 
         // not sure exactly wwhat to do, probably easier to accept either 
@@ -110,38 +112,6 @@ function addReimbursementToTable(reimbursement) {
     document.getElementById('reimbursement-table-body').appendChild(row);
 }
 
-
-
-// function getReimbursementFromInputs() {
-//     const amount = +document.getElementById('reimbursement-amount-input').value;
-//     //console.log(amount)
-//     const description = document.getElementById('reimbursement-description-input').value;
-//     //console.log(description)
-//     const type = document.getElementById('reimbursement-type-select').value;
-//     let typeId;
-//     if (type === 'Lodging') {
-//         typeId = 1
-//     } else if (type === 'Travel') {
-//         typeId = 2
-//     } else if (type === 'Food') {
-//         typeId = 3
-//     } else {
-//         typeId = 4
-//     }
-//     //console.log(typeId)
-//     const author = currentUser.ersUsersId
-//     console.log(author)
-
-//     const reimbursement = {
-//         reimbAmount: amount,
-//         reimbDescription: description,
-//         reimbTypeId: typeId,
-//         reimbAuthor: author
-//     }
-//     //console.log(reimbursement)
-//     return reimbursement;
-// }
-
 function refreshTable() {
     fetch(`http://localhost:8080/ReimbursementApi/reimbursements`, { //
         credentials: 'include'
@@ -153,6 +123,7 @@ function refreshTable() {
                 document.getElementById('reimbursement-table-body').deleteRow(i)
             }
             data.forEach(addReimbursementToTable)
+            //console.log('refreshed')
         })
         .catch(console.log);
 }
@@ -253,11 +224,9 @@ function logout(event) {
         })
 }
 
-function approve(id) {
+async function approve(id) {
     event.preventDefault(); // stop page from refreshing
     console.log('updated');
-
-    //get id from event some how
 
     fetch(`http://localhost:8080/ReimbursementApi/reimbursements?status=2&resolver=${currentUser.ersUsersId}&id=${id}`, {
         method: 'PUT',
@@ -266,17 +235,15 @@ function approve(id) {
             'content-type': 'application/json'
         }
     })
-        .then(refreshTable())
+        .then(await refreshTable())
 
         .catch(err => console.log(err));
 
 }
 
-function deny(id) {
+async function deny(id) {
     event.preventDefault(); // stop page from refreshing
     console.log('updated');
-
-    //get id from event some how
 
     fetch(`http://localhost:8080/ReimbursementApi/reimbursements?status=3&resolver=${currentUser.ersUsersId}&id=${id}`, {
         method: 'PUT',
@@ -285,7 +252,7 @@ function deny(id) {
             'content-type': 'application/json'
         }
     })
-        .then(refreshTable())
+        .then(await refreshTable())
 
         .catch(err => console.log(err));
 
