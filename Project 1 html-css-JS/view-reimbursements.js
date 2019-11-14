@@ -140,9 +140,9 @@ function getCurrentUserInfo() {
             document.getElementById('users-name').innerText = data.ersUsername
             //logout causes data to be null so it can't read username of it
             currentUser = data;
-            if (currentUser.userRoleId === 2) {
-                window.location = '/view-reimbursements-manager.html'
-            }
+            // if (currentUser.userRoleId === 2) {
+            //     window.location = '/view-reimbursements-manager.html'
+            // }
             //console.log(currentUser)
             refreshTable();
 

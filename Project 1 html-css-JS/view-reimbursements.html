@@ -26,8 +26,13 @@
         <div class="collapse navbar-collapse" id="navbarsExample05">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
+                    <a class="nav-link" href="/view-reimbursements-manager.html">Approve/Deny Requests<span
+                            class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#" onclick="logout()">Logout<span class="sr-only"></span></a>
                 </li>
+
 
                 <!-- <li class="nav-item">
                     <a class="nav-link" href="/chuck-norris/chuck-norris.html">Chuck Norris <span
@@ -82,13 +87,13 @@
             </tr>
         </thead>
         <tbody id="reimbursement-table-body">
-          
+
         </tbody>
     </table>
     <br>
     <br>
     <br>
-        <h4>Submit New Reimbursement Request</h4>
+    <h4>Submit New Reimbursement Request</h4>
     <form id="new-reimbursement-form" onsubmit="newReimbursementSubmit(event)">
         <div class="form-group">
             <label for="reimbursement-amount-input">Amount:</label>

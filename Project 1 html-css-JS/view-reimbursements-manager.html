@@ -26,6 +26,9 @@
         <div class="collapse navbar-collapse" id="navbarsExample05">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
+                    <a class="nav-link" href="/view-reimbursements.html">Submit Requests<span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#" onclick="logout()">Logout<span class="sr-only"></span></a>
                 </li>
 
@@ -81,13 +84,13 @@
             </tr>
         </thead>
         <tbody id="reimbursement-table-body">
-          
+
         </tbody>
     </table>
     <br>
     <br>
     <br>
-        <h4>Filter requests based on user and/or status</h4>
+    <h4>Filter requests based on user and/or status</h4>
     <form id="filter-form" onsubmit="newFilterSubmit(event)">
         <div class="form-group">
             <label for="filter-user-input">User ID:</label>

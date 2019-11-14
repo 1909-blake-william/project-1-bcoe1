@@ -244,7 +244,7 @@ function logout(event) {
         })
 }
 
-async function approve(id) {
+function approve(id) {
     event.preventDefault(); // stop page from refreshing
     console.log('updated');
 
@@ -255,13 +255,22 @@ async function approve(id) {
             'content-type': 'application/json'
         }
     })
-        .then(await refreshTable())
+    .then(resp => {
+        if (resp.status === 204) {
+            refreshTable()
+        } else if (resp.status === 401) {
+            alert('You cannot approve your own requests!')
+        } else {
+            console.log('Something went wrong')
+        }
+    })
+        //.then(await refreshTable())
 
         .catch(err => console.log(err));
 
 }
 
-async function deny(id) {
+function deny(id) {
     event.preventDefault(); // stop page from refreshing
     console.log('updated');
 
@@ -272,7 +281,16 @@ async function deny(id) {
             'content-type': 'application/json'
         }
     })
-        .then(await refreshTable())
+    .then(resp => {
+        if (resp.status === 204) {
+            refreshTable()
+        } else if (resp.status === 401) {
+            alert('You cannot deny your own requests!')
+        } else {
+            console.log('Something went wrong')
+        }
+    })
+        //.then(await refreshTable())
 
         .catch(err => console.log(err));
 
