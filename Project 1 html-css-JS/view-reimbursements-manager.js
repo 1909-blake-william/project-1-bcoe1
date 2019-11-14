@@ -20,7 +20,7 @@ function newFilterSubmit(event) {
     }
 
 
-    if (!+user && user !== '0') { //if input is not a number convert it to the correct id
+    if (!+user && user !== '0' && user !== '') { //if input is not a number convert it to the correct id
 
         fetch(`http://localhost:8080/ReimbursementApi/users?username=${user}`, {
             credentials: 'include'
@@ -44,10 +44,12 @@ function newFilterSubmit(event) {
             })
     } else {
         userNum = +user;
-        if (!userNum) {
-            userNum = -1;
+        
+        if (user === '0') {
+            userNum = -1; 
+            // if they search by id 0 it should try to find employee 0, which doesn't exist
+            // neither does employee -1 so  put in -1 so logic works more easily
         }
-
         if (userNum && statusNum) { //user and status
             let nums = [userNum, statusNum]
             refreshTableUS(nums);
