@@ -17,27 +17,47 @@ function newFilterSubmit(event) {
         statusNum = 2;
     } else {
         statusNum = 3;
-    } 
-
-
-    if (!+user) { //if input is not a number convert it to the correct id
-
-        // not sure exactly wwhat to do, probably easier to accept either 
-        // and have find by functions accept either
-        userNum = +user;
-    } else {
-        userNum = +user;
     }
 
-    if (userNum && statusNum) { //user and status
-        let nums = [userNum, statusNum]
-        refreshTableUS(nums);
-    } else if (userNum && !statusNum) { //user and !status
-        refreshTableU(userNum);
-    } else if (!userNum && statusNum) { //!user and status
-        refreshTableS(statusNum);
-    } else { //!user and !status
-        refreshTable();
+
+    if (!+user && user !== '0') { //if input is not a number convert it to the correct id
+
+        fetch(`http://localhost:8080/ReimbursementApi/users?username=${user}`, {
+            credentials: 'include'
+        })
+            .then(resp => resp.json())
+            .then(data => {
+                userNum = data.ersUsersId
+                if (userNum && statusNum) { //user and status
+                    let nums = [userNum, statusNum]
+                    refreshTableUS(nums);
+                } else if (userNum && !statusNum) { //user and !status
+                    refreshTableU(userNum);
+                } else if (!userNum && statusNum) { //!user and status
+                    refreshTableS(statusNum);
+                } else { //!user and !status
+                    refreshTable();
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    } else {
+        userNum = +user;
+        if (!userNum) {
+            userNum = -1;
+        }
+
+        if (userNum && statusNum) { //user and status
+            let nums = [userNum, statusNum]
+            refreshTableUS(nums);
+        } else if (userNum && !statusNum) { //user and !status
+            refreshTableU(userNum);
+        } else if (!userNum && statusNum) { //!user and status
+            refreshTableS(statusNum);
+        } else { //!user and !status
+            refreshTable();
+        }
     }
 
 }
@@ -96,15 +116,15 @@ function addReimbursementToTable(reimbursement) {
         const reimbYesButton = document.createElement('button');
         reimbYesButton.innerText = 'Approve';
         reimbYesButton.setAttribute('onclick', 'approve(this.value)')
-        reimbYesButton.setAttribute('class','btn btn-lg btn-success btn-block')
-        reimbYesButton.setAttribute('value',`${reimbursement.reimbId}`)
+        reimbYesButton.setAttribute('class', 'btn btn-lg btn-success btn-block')
+        reimbYesButton.setAttribute('value', `${reimbursement.reimbId}`)
         row.appendChild(reimbYesButton);
 
         const reimbNoButton = document.createElement('button');
         reimbNoButton.innerText = 'Deny';
         reimbNoButton.setAttribute('onclick', 'deny(this.value)')
-        reimbNoButton.setAttribute('class','btn btn-lg btn-danger btn-block')
-        reimbNoButton.setAttribute('value',`${reimbursement.reimbId}`)
+        reimbNoButton.setAttribute('class', 'btn btn-lg btn-danger btn-block')
+        reimbNoButton.setAttribute('value', `${reimbursement.reimbId}`)
         row.appendChild(reimbNoButton);
     }
 
@@ -230,7 +250,7 @@ async function approve(id) {
 
     fetch(`http://localhost:8080/ReimbursementApi/reimbursements?status=2&resolver=${currentUser.ersUsersId}&id=${id}`, {
         method: 'PUT',
-        
+
         headers: {
             'content-type': 'application/json'
         }
@@ -247,7 +267,7 @@ async function deny(id) {
 
     fetch(`http://localhost:8080/ReimbursementApi/reimbursements?status=3&resolver=${currentUser.ersUsersId}&id=${id}`, {
         method: 'PUT',
-        
+
         headers: {
             'content-type': 'application/json'
         }
