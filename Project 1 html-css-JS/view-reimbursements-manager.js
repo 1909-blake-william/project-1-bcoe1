@@ -1,25 +1,42 @@
+
+
 let currentUser;
-function newReimbursementSubmit(event) {
-    event.preventDefault(); // stop page from refreshing
-    console.log('submitted');
+function newFilterSubmit(event) {
+    event.preventDefault();
 
-    const reimbursement = getReimbursementFromInputs();
-    //console.log(reimbursement)
+    //use this function to direct it to other functions
+    const user = document.getElementById('filter-user-input').value
+    const status = document.getElementById('filter-status-select').value
+    let userNum;
+    let statusNum;
+    if (status === 'All') {
+        statusNum = 0;
+    } else if (status === 'Pending') {
+        statusNum = 1;
+    } else if (status === 'Approved') {
+        statusNum = 2;
+    } else {
+        statusNum = 3;
+    }
+    if (!+user) { //if input is not a number convert it to the correct id
 
-    fetch('http://localhost:8080/ReimbursementApi/reimbursements', {
-        method: 'POST',
-        body: JSON.stringify(reimbursement),
-        headers: {
-            'content-type': 'application/json'
-        }
-    })
-        .then(res => res.json())
-        .then(data => {
-            addReimbursementToTable(data);
-            console.log(data);
-        })
-        .catch(err => console.log(err));
+        // not sure exactly wwhat to do, probably easier to accept either 
+        // and have find by functions accept either
+        userNum = +user;
+    } else {
+        userNum = +user;
+    }
 
+    if (userNum && statusNum) { //user and status
+        let nums = [userNum, statusNum]
+        refreshTableUS(nums);
+    } else if (userNum && !statusNum) { //user and !status
+        refreshTableU(userNum);
+    } else if (!userNum && statusNum) { //!user and status
+        refreshTableS(statusNum);
+    } else { //!user and !status
+        refreshTable();
+    }
 
 }
 
@@ -56,7 +73,10 @@ function addReimbursementToTable(reimbursement) {
     const reimbAuthData = document.createElement('td');
     reimbAuthData.innerText = reimbursement.reimbName;
     row.appendChild(reimbAuthData);
-   
+
+    const reimbAuthIdData = document.createElement('td');
+    reimbAuthIdData.innerText = reimbursement.reimbAuthor;
+    row.appendChild(reimbAuthIdData);
 
     const reimbResolverData = document.createElement('td');
     reimbResolverData.innerText = reimbursement.reimbResName;
@@ -70,39 +90,57 @@ function addReimbursementToTable(reimbursement) {
     reimbTypeData.innerText = reimbursement.reimbType;
     row.appendChild(reimbTypeData);
 
+    if (reimbursement.reimbStatus === 'Pending') {
+        const reimbYesButton = document.createElement('button');
+        reimbYesButton.innerText = 'Approve';
+        reimbYesButton.setAttribute('onclick', 'approve(this.value)')
+        reimbYesButton.setAttribute('class','btn btn-lg btn-success btn-block')
+        reimbYesButton.setAttribute('value',`${reimbursement.reimbId}`)
+        row.appendChild(reimbYesButton);
+
+        const reimbNoButton = document.createElement('button');
+        reimbNoButton.innerText = 'Deny';
+        reimbNoButton.setAttribute('onclick', 'deny(this.value)')
+        reimbNoButton.setAttribute('class','btn btn-lg btn-danger btn-block')
+        reimbNoButton.setAttribute('value',`${reimbursement.reimbId}`)
+        row.appendChild(reimbNoButton);
+    }
+
     // append the row into the table
     document.getElementById('reimbursement-table-body').appendChild(row);
 }
 
-function getReimbursementFromInputs() {
-    const amount = +document.getElementById('reimbursement-amount-input').value;
-    //console.log(amount)
-    const description = document.getElementById('reimbursement-description-input').value;
-    //console.log(description)
-    const type = document.getElementById('reimbursement-type-select').value;
-    let typeId;
-    if (type === 'Lodging') {
-        typeId = 1
-    } else if (type === 'Travel') {
-        typeId = 2
-    } else if (type === 'Food') {
-        typeId = 3
-    } else {
-        typeId = 4
-    }
-    //console.log(typeId)
-    const author = currentUser.ersUsersId
-    console.log(author)
 
-    const reimbursement = {
-        reimbAmount: amount,
-        reimbDescription: description,
-        reimbTypeId: typeId,
-        reimbAuthor: author
-    }
-    //console.log(reimbursement)
-    return reimbursement;
-}
+
+// function getReimbursementFromInputs() {
+//     const amount = +document.getElementById('reimbursement-amount-input').value;
+//     //console.log(amount)
+//     const description = document.getElementById('reimbursement-description-input').value;
+//     //console.log(description)
+//     const type = document.getElementById('reimbursement-type-select').value;
+//     let typeId;
+//     if (type === 'Lodging') {
+//         typeId = 1
+//     } else if (type === 'Travel') {
+//         typeId = 2
+//     } else if (type === 'Food') {
+//         typeId = 3
+//     } else {
+//         typeId = 4
+//     }
+//     //console.log(typeId)
+//     const author = currentUser.ersUsersId
+//     console.log(author)
+
+//     const reimbursement = {
+//         reimbAmount: amount,
+//         reimbDescription: description,
+//         reimbTypeId: typeId,
+//         reimbAuthor: author
+//     }
+//     //console.log(reimbursement)
+//     return reimbursement;
+// }
 
 function refreshTable() {
     fetch(`http://localhost:8080/ReimbursementApi/reimbursements`, { //
@@ -110,6 +148,61 @@ function refreshTable() {
     })
         .then(res => res.json())
         .then(data => {
+            let numRows = document.getElementById('reimbursement-table-body').rows.length
+            for (let i = numRows - 1; i > -1; i--) {
+                document.getElementById('reimbursement-table-body').deleteRow(i)
+            }
+            data.forEach(addReimbursementToTable)
+        })
+        .catch(console.log);
+}
+
+function refreshTableUS(nums) {
+    fetch(`http://localhost:8080/ReimbursementApi/reimbursements?user=${nums[0]}&status=${nums[1]}`, { //
+        credentials: 'include'
+    })
+        .then(res => res.json())
+        .then(data => {
+            let numRows = document.getElementById('reimbursement-table-body').rows.length
+            // console.log(numRows)
+            // console.log(`both here`)
+            for (let i = numRows - 1; i > -1; i--) {
+                document.getElementById('reimbursement-table-body').deleteRow(i)
+            }
+            data.forEach(addReimbursementToTable)
+        })
+        .catch(console.log);
+}
+
+function refreshTableU(user) {
+    fetch(`http://localhost:8080/ReimbursementApi/reimbursements?user=${user}`, { //
+        credentials: 'include'
+    })
+        .then(res => res.json())
+        .then(data => {
+            let numRows = document.getElementById('reimbursement-table-body').rows.length
+            // console.log(numRows)
+            // console.log(`user thing`)
+            for (let i = numRows - 1; i > -1; i--) {
+                document.getElementById('reimbursement-table-body').deleteRow(i)
+            }
+            data.forEach(addReimbursementToTable)
+        })
+        .catch(console.log);
+}
+
+function refreshTableS(status) {
+    fetch(`http://localhost:8080/ReimbursementApi/reimbursements?status=${status}`, { //
+        credentials: 'include'
+    })
+        .then(res => res.json())
+        .then(data => {
+            let numRows = document.getElementById('reimbursement-table-body').rows.length
+            // console.log(numRows)
+            // console.log(`status num = ${status}`)
+            for (let i = numRows - 1; i > -1; i--) {
+                document.getElementById('reimbursement-table-body').deleteRow(i)
+            }
             data.forEach(addReimbursementToTable)
         })
         .catch(console.log);
@@ -121,10 +214,10 @@ function getCurrentUserInfo() {
     })
         .then(resp => resp.json())
         .then(data => {
-            document.getElementById('users-name').innerText = data.ersUsername 
+            document.getElementById('users-name').innerText = data.ersUsername
             //logout causes data to be null so it can't read username of it
             currentUser = data;
-            if (currentUser.userRoleId === 1){
+            if (currentUser.userRoleId === 1) {
                 window.location = '/view-reimbursements.html'
             }
             //console.log(currentUser)
@@ -160,7 +253,44 @@ function logout(event) {
         })
 }
 
+function approve(id) {
+    event.preventDefault(); // stop page from refreshing
+    console.log('updated');
+
+    //get id from event some how
+
+    fetch(`http://localhost:8080/ReimbursementApi/reimbursements?status=2&resolver=${currentUser.ersUsersId}&id=${id}`, {
+        method: 'PUT',
+        
+        headers: {
+            'content-type': 'application/json'
+        }
+    })
+        .then(refreshTable())
+
+        .catch(err => console.log(err));
+
+}
+
+function deny(id) {
+    event.preventDefault(); // stop page from refreshing
+    console.log('updated');
+
+    //get id from event some how
+
+    fetch(`http://localhost:8080/ReimbursementApi/reimbursements?status=3&resolver=${currentUser.ersUsersId}&id=${id}`, {
+        method: 'PUT',
+        
+        headers: {
+            'content-type': 'application/json'
+        }
+    })
+        .then(refreshTable())
+
+        .catch(err => console.log(err));
+
+}
+
 getCurrentUserInfo();
 
 
-//ideas make 4 seperate functions depending on what is present in the form
