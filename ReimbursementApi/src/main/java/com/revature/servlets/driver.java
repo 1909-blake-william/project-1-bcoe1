@@ -13,7 +13,7 @@ public class driver {
 		//Reimbursement reim = new Reimbursement(0, 33.9, null, null, "I want to test if submit function works", 1, 0, 0, 1);
 		
 		//System.out.println(reimDao.update(21, 2, 1));
-		
+//		System.out.println(reimDao.findAll());
 //		System.out.println(reimDao.findByStatus(1));
 //		System.out.println(reimDao.findByUser(1));
 //		System.out.println(reimDao.findByUserAndStatus(1, 1));

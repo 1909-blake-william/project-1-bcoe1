@@ -1,13 +1,17 @@
 package com.revature.daos;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.models.User;
+import com.revature.util.ConnectionUtil;
 
-public class UserDaoSQL implements UserDao{
-	
+public class UserDaoSQL implements UserDao {
+
 	User extractUser(ResultSet rs) throws SQLException {
 		int id = rs.getInt("ers_users_id");
 		String rsUsername = rs.getString("ers_username");
@@ -25,8 +29,23 @@ public class UserDaoSQL implements UserDao{
 	}
 
 	public List<User> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		try (Connection c = ConnectionUtil.getConnection()) {
+			String sql = "SELECT * FROM ers_users ";
+
+			PreparedStatement ps = c.prepareStatement(sql);
+
+			ResultSet rs = ps.executeQuery();
+			List<User> users = new ArrayList<User>();
+
+			while (rs.next()) {
+				users.add(extractUser(rs));
+			}
+			return users;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public User findById() {
@@ -35,13 +54,50 @@ public class UserDaoSQL implements UserDao{
 	}
 
 	public User findByUsernameAndPassword(String username, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		try (Connection c = ConnectionUtil.getConnection()) {
+
+			String sql = "SELECT * FROM ers_users " + "WHERE ers_username = ? AND ers_password = ?";
+
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setString(1, username);
+			ps.setString(2, password);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				return extractUser(rs);
+			} else {
+				return null;
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public User findByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		try (Connection c = ConnectionUtil.getConnection()) {
+
+			String sql = "SELECT * FROM ers_users " + "WHERE ers_username = ?";
+
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setString(1, username);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				return extractUser(rs);
+			} else {
+				return null;
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

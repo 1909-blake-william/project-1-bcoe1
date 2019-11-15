@@ -9,7 +9,7 @@ public interface ReimbursementDao {
 	
 	ReimbursementDao currentImplementation = new ReimbursementDaoSql();
 	
-	int submit(Reimbursement reimb);
+	Reimbursement submit(Reimbursement reimb);
 	
 	int update(int resolver, int status, int id);
 	
@@ -20,5 +20,7 @@ public interface ReimbursementDao {
 	List<Reimbursement> findByUser(int userId);
 	
 	List<Reimbursement> findByUserAndStatus(int userId, int status);
+	
+	int delete(int id);
 
 }

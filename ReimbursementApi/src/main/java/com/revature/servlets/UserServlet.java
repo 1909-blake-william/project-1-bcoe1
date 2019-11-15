@@ -18,26 +18,33 @@ public class UserServlet extends HttpServlet {
 
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.service(req, resp);
-		//System.out.println("To context param: " + req.getServletContext().getInitParameter("To"));
-
-		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+		System.out.println(req.getRequestURL());
+		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+		resp.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
 		resp.addHeader("Access-Control-Allow-Headers",
 				"Origin, Methods, Credentials, X-Requested-With, Content-Type, Accept");
 		resp.addHeader("Access-Control-Allow-Credentials", "true");
 		resp.setContentType("application/json");
+		// TODO Auto-generated method stub
+		super.service(req, resp);
+
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		List<User> users;
-
-		users = userDao.findAll();
-
+		
 		ObjectMapper om = new ObjectMapper();
-		String json = om.writeValueAsString(users);
+
+		String username = req.getParameter("username");
+		String json;
+		
+		if (username == null) {
+			 List<User> users = userDao.findAll();
+			json = om.writeValueAsString(users);
+		} else {
+			User user = userDao.findByUsername(username);
+			json = om.writeValueAsString(user);
+		}
 
 		resp.addHeader("content-type", "application/json");
 		resp.getWriter().write(json);

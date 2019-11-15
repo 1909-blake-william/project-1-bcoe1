@@ -13,12 +13,17 @@ public class Reimbursement {
 	private int reimbResolver;
 	private int reimbStatusId;
 	private int reimbTypeId;
+	private String reimbName;
+	private String reimbResName;
+	private String reimbStatus;
+	private String reimbType;
 	public Reimbursement() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public Reimbursement(int reimbId, Double reimbAmount, Timestamp reimbSubmitted, Timestamp reimbResolved,
-			String reimbDescription, int reimbAuthor, int reimbResolver, int reimbStatusId, int reimbTypeId) {
+			String reimbDescription, int reimbAuthor, int reimbResolver, int reimbStatusId, int reimbTypeId,
+			String reimbName, String reimbResName, String reimbStatus, String reimbType) {
 		super();
 		this.reimbId = reimbId;
 		this.reimbAmount = reimbAmount;
@@ -29,6 +34,10 @@ public class Reimbursement {
 		this.reimbResolver = reimbResolver;
 		this.reimbStatusId = reimbStatusId;
 		this.reimbTypeId = reimbTypeId;
+		this.reimbName = reimbName;
+		this.reimbResName = reimbResName;
+		this.reimbStatus = reimbStatus;
+		this.reimbType = reimbType;
 	}
 	public int getReimbId() {
 		return reimbId;
@@ -84,6 +93,30 @@ public class Reimbursement {
 	public void setReimbTypeId(int reimbTypeId) {
 		this.reimbTypeId = reimbTypeId;
 	}
+	public String getReimbName() {
+		return reimbName;
+	}
+	public void setReimbName(String reimbName) {
+		this.reimbName = reimbName;
+	}
+	public String getReimbResName() {
+		return reimbResName;
+	}
+	public void setReimbResName(String reimbResName) {
+		this.reimbResName = reimbResName;
+	}
+	public String getReimbStatus() {
+		return reimbStatus;
+	}
+	public void setReimbStatus(String reimbStatus) {
+		this.reimbStatus = reimbStatus;
+	}
+	public String getReimbType() {
+		return reimbType;
+	}
+	public void setReimbType(String reimbType) {
+		this.reimbType = reimbType;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -92,10 +125,14 @@ public class Reimbursement {
 		result = prime * result + reimbAuthor;
 		result = prime * result + ((reimbDescription == null) ? 0 : reimbDescription.hashCode());
 		result = prime * result + reimbId;
+		result = prime * result + ((reimbName == null) ? 0 : reimbName.hashCode());
+		result = prime * result + ((reimbResName == null) ? 0 : reimbResName.hashCode());
 		result = prime * result + ((reimbResolved == null) ? 0 : reimbResolved.hashCode());
 		result = prime * result + reimbResolver;
+		result = prime * result + ((reimbStatus == null) ? 0 : reimbStatus.hashCode());
 		result = prime * result + reimbStatusId;
 		result = prime * result + ((reimbSubmitted == null) ? 0 : reimbSubmitted.hashCode());
+		result = prime * result + ((reimbType == null) ? 0 : reimbType.hashCode());
 		result = prime * result + reimbTypeId;
 		return result;
 	}
@@ -122,6 +159,16 @@ public class Reimbursement {
 			return false;
 		if (reimbId != other.reimbId)
 			return false;
+		if (reimbName == null) {
+			if (other.reimbName != null)
+				return false;
+		} else if (!reimbName.equals(other.reimbName))
+			return false;
+		if (reimbResName == null) {
+			if (other.reimbResName != null)
+				return false;
+		} else if (!reimbResName.equals(other.reimbResName))
+			return false;
 		if (reimbResolved == null) {
 			if (other.reimbResolved != null)
 				return false;
@@ -129,12 +176,22 @@ public class Reimbursement {
 			return false;
 		if (reimbResolver != other.reimbResolver)
 			return false;
+		if (reimbStatus == null) {
+			if (other.reimbStatus != null)
+				return false;
+		} else if (!reimbStatus.equals(other.reimbStatus))
+			return false;
 		if (reimbStatusId != other.reimbStatusId)
 			return false;
 		if (reimbSubmitted == null) {
 			if (other.reimbSubmitted != null)
 				return false;
 		} else if (!reimbSubmitted.equals(other.reimbSubmitted))
+			return false;
+		if (reimbType == null) {
+			if (other.reimbType != null)
+				return false;
+		} else if (!reimbType.equals(other.reimbType))
 			return false;
 		if (reimbTypeId != other.reimbTypeId)
 			return false;
@@ -145,8 +202,9 @@ public class Reimbursement {
 		return "Reimbursement [reimbId=" + reimbId + ", reimbAmount=" + reimbAmount + ", reimbSubmitted="
 				+ reimbSubmitted + ", reimbResolved=" + reimbResolved + ", reimbDescription=" + reimbDescription
 				+ ", reimbAuthor=" + reimbAuthor + ", reimbResolver=" + reimbResolver + ", reimbStatusId="
-				+ reimbStatusId + ", reimbTypeId=" + reimbTypeId + "]";
+				+ reimbStatusId + ", reimbTypeId=" + reimbTypeId + ", reimbName=" + reimbName + ", reimbResName="
+				+ reimbResName + ", reimbStatus=" + reimbStatus + ", reimbType=" + reimbType + "]";
 	}
 	
-
+	
 }
