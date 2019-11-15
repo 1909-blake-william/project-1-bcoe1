@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <!-- bootstrap -->
+
     <link rel="stylesheet" href="view-reimbursements-manager.css">
 </head>
 
@@ -18,52 +18,21 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" style="color: white;">Dunder Mifflin Corporate</a>
-        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05"
-            aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button> -->
+
 
         <div class="collapse navbar-collapse" id="navbarsExample05">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/view-reimbursements.html">Submit Requests<span class="sr-only"></span></a>
+                    <a class="nav-link" href="/view-reimbursements.html">Submit Requests<span
+                            class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" onclick="logout()">Logout<span class="sr-only"></span></a>
                 </li>
 
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="/chuck-norris/chuck-norris.html">Chuck Norris <span
-                            class="sr-only">(current)</span></a>
-                </li> -->
-                <!-- <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown05">
-                        <a class="dropdown-item" href="#">Profile</a>
-                        <a class="dropdown-item" href="#" active>View Pokemon</a>
-                        <a class="dropdown-item" href="#">Catch Pokemon</a>
-                        <a class="dropdown-item" href="#">Pokemon Types</a>
-                        <a class="dropdown-item" href="#">Release Pokemon</a>
-                    </div>
-                </li> -->
+
             </ul>
-            <!-- <form class="form-inline my-2 my-md-0">
-                <input class="form-control" type="text" placeholder="Search">
-            </form> -->
-            <!-- <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a id="users-name" class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false"></a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown05">
-                        <a class="dropdown-item" href="#">Profile</a>
-                        <a class="dropdown-item" href="#" active>View Pokemon</a>
-                        <a class="dropdown-item" href="#">Catch Pokemon</a>
-                        <a class="dropdown-item" href="#">Pokemon Types</a>
-                        <a class="dropdown-item" href="#">Release Pokemon</a>
-                    </div>
-                </li>
-            </ul> -->
+
             <a id="users-name" style="color: white;"></a>
         </div>
     </nav>
@@ -93,7 +62,7 @@
     <h4>Filter requests based on user and/or status</h4>
     <form id="filter-form" onsubmit="newFilterSubmit(event)">
         <div class="form-group">
-            <label for="filter-user-input">User ID:</label>
+            <label for="filter-user-input">User:</label>
             <input type="text" class="form-control" id="filter-user-input">
         </div>
 
